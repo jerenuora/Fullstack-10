@@ -7,7 +7,7 @@ const AppBarTab = ({ tabName, address }) => {
   return (
     <Pressable onPress={() => {}}>
       <Link to={address}>
-        <Text color="appBarText" fontWeight="bold" fontSize="subheading">
+        <Text color="appBarText" fontWeight="bold" fontSize="subheading" >
           {tabName}
         </Text>
       </Link>
