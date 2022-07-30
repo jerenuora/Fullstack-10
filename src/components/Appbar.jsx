@@ -8,14 +8,14 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: Constants.statusBarHeight,
     backgroundColor: theme.colors.appBarBackground,
-    padding: 12,    
+    padding: 12,
   },
 })
 
 const AppBar = () => {
   return (
     <View style={styles.container}>
-      <ScrollView horizontal  >
+      <ScrollView horizontal>
         {<AppBarTab tabName={'Repositories '} address={'/'} />}
         {<AppBarTab tabName={'Sing in '} address={'/signin'} />}
       </ScrollView>

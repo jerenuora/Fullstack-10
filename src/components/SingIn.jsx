@@ -47,16 +47,14 @@ const SignInForm = ({ onSubmit }) => {
           style={styles.textInput}
           name="name"
           placeholder="Username"
-                    placeholderTextColor="grey"
-
+          placeholderTextColor="grey"
         />
         <FormikTextInput
           style={styles.textInput}
           secureTextEntry
           name="password"
-          placeholder="Password"  
+          placeholder="Password"
           placeholderTextColor="grey"
-
         />
         <Pressable style={styles.button} onPress={onSubmit}>
           <Text color="appBarText" fontWeight="bold">
