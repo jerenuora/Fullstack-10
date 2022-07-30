@@ -13,11 +13,6 @@ const useRepositories = () => {
     if (!loading) {
     setRepositories(data.repositories)
     }
-    // const response = await fetch('http://192.168.100.13:5000/api/repositories')
-    // const json = await response.json()
-
-    // setLoading(false)
-      
   }
 
   useEffect(() => {
