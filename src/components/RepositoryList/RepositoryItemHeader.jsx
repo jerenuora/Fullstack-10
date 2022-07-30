@@ -1,5 +1,5 @@
 import { View, StyleSheet, Image } from 'react-native'
-import Text from './Text'
+import Text from '../Text'
 
 const headerStyles = StyleSheet.create({
   headerContainer: {
