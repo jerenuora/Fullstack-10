@@ -3,6 +3,7 @@ import Text from '../Text'
 import FormikTextInput from './FormikTextInput'
 import { Formik } from 'formik'
 import * as yup from 'yup'
+import useSignIn from '../../hooks/useSingIn'
 
 const styles = StyleSheet.create({
   container: {
@@ -28,11 +29,11 @@ const styles = StyleSheet.create({
   },
 })
 const initialValues = {
-  name: '',
+  username: '',
   password: '',
 }
 const validationSchema = yup.object().shape({
-  name: yup
+  username: yup
     .string()
     .min(3, 'Username shoud be atleast three characters long')
     .max(50, 'Username should be only fifty characters long')
@@ -48,7 +49,7 @@ const SignInForm = ({ onSubmit }) => {
       <View style={styles.form}>
         <FormikTextInput
           style={styles.textInput}
-          name="name"
+          name="username"
           placeholder="Username"
           placeholderTextColor="grey"
         />
@@ -69,9 +70,17 @@ const SignInForm = ({ onSubmit }) => {
   )
 }
 const SignIn = () => {
-  const onSubmit = (values) => {
-    console.log(values)
-  }
+  const [signIn] = useSignIn();
+
+  const onSubmit = async (values) => {
+    const { username, password } = values;
+    try {
+      const { data } = await signIn({ username, password });
+      console.log(data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <Formik
