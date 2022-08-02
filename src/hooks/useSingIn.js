@@ -1,12 +1,12 @@
 import { useMutation } from '@apollo/client'
 import { SING_IN } from '../graphql/mutations'
-import useAuthStorage from '../hooks/useAuthStorage';
-import { useApolloClient } from '@apollo/client';
+import useAuthStorage from '../hooks/useAuthStorage'
+import { useApolloClient } from '@apollo/client'
 
 const useSignIn = () => {
-    const apolloClient = useApolloClient();
+  const apolloClient = useApolloClient()
 
-    const authStorage = useAuthStorage();
+  const authStorage = useAuthStorage()
 
   const [mutate, result] = useMutation(SING_IN, {
     onError: (error) => {
@@ -15,15 +15,18 @@ const useSignIn = () => {
   })
 
   const signIn = async ({ username, password }) => {
-    const { data } = await mutate({variables:{
-      credentials: {
-        username,
-        password,
-      }},
+    const { data } = await mutate({
+      variables: {
+        credentials: {
+          username,
+          password,
+        },
+      },
     })
-    if (data){
-    await authStorage.setAccessToken(authStorage.setAccessToken(data.authenticate.accessToken))
-    apolloClient.resetStore()}
+    if (data) {
+      await authStorage.setAccessToken(data.authenticate.accessToken)
+      apolloClient.resetStore()
+    }
     return { data }
   }
 

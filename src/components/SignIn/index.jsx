@@ -78,7 +78,9 @@ const SignIn = () => {
     const { username, password } = values
     try {
       const { data } = await signIn({ username, password })
-      navigate('/')
+      if (data) {
+        navigate('/')
+      }
     } catch (e) {
       console.log(e)
     }
