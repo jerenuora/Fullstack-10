@@ -19,7 +19,7 @@ const Info = ({ item }) => {
   const reviews = roundCount(item.reviewCount)
 
   return (
-    <View style={infoStyles.infoContainer}>
+    <View testID="repositoryItemInfo"  style={infoStyles.infoContainer}>
       <View style={infoStyles.singleInfoItemContainer}>
         <Text fontWeight="bold">{stars}</Text>
         <Text>Stars</Text>

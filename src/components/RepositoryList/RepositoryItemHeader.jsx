@@ -31,7 +31,7 @@ const headerStyles = StyleSheet.create({
 
 const Header = ({ item }) => {
   return (
-    <View style={headerStyles.headerContainer}>
+    <View testID="repositoryItemHeader" style={headerStyles.headerContainer}>
       <View style={headerStyles.imageContainer}>
         <Image
           style={headerStyles.image}
