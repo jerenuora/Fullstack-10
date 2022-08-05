@@ -46,15 +46,22 @@ describe('RepositoryList', () => {
           },
         ],
       }
-      const { getAllByTestId, debug } = render(<RepositoryListContainer repositories={repositories} />)
+      const { getAllByTestId, debug } = render(
+        <RepositoryListContainer repositories={repositories} />
+      )
 
       const repositoryItems = getAllByTestId('repositoryItem')
       const [firstRepositoryItem, secondRepositoryItem] = repositoryItems
-      const firstRepositoryItemHeader = within(firstRepositoryItem).getByTestId('repositoryItemHeader')
-      const firstRepositoryItemInfo = within(firstRepositoryItem).getByTestId('repositoryItemInfo')
+      const firstRepositoryItemHeader = within(firstRepositoryItem).getByTestId(
+        'repositoryItemHeader'
+      )
+      const firstRepositoryItemInfo =
+        within(firstRepositoryItem).getByTestId('repositoryItemInfo')
 
       expect(firstRepositoryItemHeader).toHaveTextContent('jaredpalmer/formik')
-      expect(firstRepositoryItemHeader).toHaveTextContent('Build forms in React, without the tears')
+      expect(firstRepositoryItemHeader).toHaveTextContent(
+        'Build forms in React, without the tears'
+      )
       expect(firstRepositoryItemHeader).toHaveTextContent('TypeScript')
 
       expect(firstRepositoryItemInfo).toHaveTextContent('21.9K')
@@ -62,11 +69,18 @@ describe('RepositoryList', () => {
       expect(firstRepositoryItemInfo).toHaveTextContent('88')
       expect(firstRepositoryItemInfo).toHaveTextContent('3')
 
-      const secondRepositoryItemHeader = within(secondRepositoryItem).getByTestId('repositoryItemHeader')
-      const secondRepositoryItemInfo = within(secondRepositoryItem).getByTestId('repositoryItemInfo')
+      const secondRepositoryItemHeader = within(
+        secondRepositoryItem
+      ).getByTestId('repositoryItemHeader')
+      const secondRepositoryItemInfo =
+        within(secondRepositoryItem).getByTestId('repositoryItemInfo')
 
-      expect(secondRepositoryItemHeader).toHaveTextContent('Flexible promise-based React data loader')
-      expect(secondRepositoryItemHeader).toHaveTextContent('async-library/react-async')
+      expect(secondRepositoryItemHeader).toHaveTextContent(
+        'Flexible promise-based React data loader'
+      )
+      expect(secondRepositoryItemHeader).toHaveTextContent(
+        'async-library/react-async'
+      )
       expect(secondRepositoryItemHeader).toHaveTextContent('JavaScript')
 
       expect(secondRepositoryItemInfo).toHaveTextContent('69')

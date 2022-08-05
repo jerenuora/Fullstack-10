@@ -6,6 +6,7 @@ import AppBar from './AppBar'
 import SignIn from './SignIn'
 import SignOut from './SignOut'
 import theme from '../theme'
+import RepositoryItemSinglePage from './RepositoryList/RepositoryItemSinglePage'
 
 const styles = StyleSheet.create({
   container: {
@@ -23,6 +24,7 @@ const Main = () => {
         <Route path="/" element={<RepositoryList />} exact />
         <Route path="/signin" element={<SignIn />} exact />
         <Route path="/signout" element={<SignOut />} exact />
+        <Route path="/:id" element={<RepositoryItemSinglePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </View>
