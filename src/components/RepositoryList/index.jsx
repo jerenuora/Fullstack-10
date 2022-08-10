@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import { FlatList, View, StyleSheet, Pressable } from 'react-native'
 import RepositoryItem from './RepositoryItem'
 import useRepositories from '../../hooks/useRepositories.js'
@@ -13,8 +12,8 @@ const styles = StyleSheet.create({
 const ItemSeparator = () => <View style={styles.separator} />
 
 export const RepositoryListContainer = ({ repositories }) => {
-  const [single, setSingle] = useState(false)
   const navigate = useNavigate()
+
   const repositoryNodes = repositories
     ? repositories.edges.map((edge) => edge.node)
     : []
@@ -39,7 +38,6 @@ export const RepositoryListContainer = ({ repositories }) => {
 
 const RepositoryList = () => {
   const { repositories } = useRepositories()
-
   return <RepositoryListContainer repositories={repositories} />
 }
 

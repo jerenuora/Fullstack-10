@@ -49,6 +49,21 @@ export const GET_SINGLE_USER = gql`
       ratingAverage
       reviewCount
       url
+      reviews {
+        edges {
+          node {
+            id
+            text
+            rating
+            createdAt
+            user {
+              id
+              username
+            }
+          }
+        }
+      }  
     }
   }
 `
+
