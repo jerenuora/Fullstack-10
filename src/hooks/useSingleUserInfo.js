@@ -9,8 +9,10 @@ const useSingleUserInfo = ({ id }) => {
     variables: { id },
   })
   const fetchRepository = async () => {
+
+    if (!loading) {
       setRepository(data.repository)
-    
+    }
   }
   console.log(loading)
 

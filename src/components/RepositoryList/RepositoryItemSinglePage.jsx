@@ -5,7 +5,6 @@ import RepositoryItem from './RepositoryItem'
 import { FlatList, View, StyleSheet } from 'react-native'
 import Text from '../Text'
 import { format, compareAsc } from 'date-fns'
-import useSingleUserInfo from '../../hooks/useSingleUserInfo'
 
 const ItemSeparator = () => <View style={styles.separator} />
 
@@ -99,10 +98,14 @@ const SingleRepositoryContainer = ({ repository }) => {
 
 const SingleRepository = () => {
   const { id } = useParams()
-  const { repository, loading } = useSingleUserInfo({ id })
+  const { data, loading } = useQuery(GET_SINGLE_USER, {
+    fetchPolicy: 'cache-and-network',
+    variables: { id },
+  })
   if (loading) {
     return null
   } else {
+    const repository = data.repository
     return <SingleRepositoryContainer repository={repository} />
   }
 }
