@@ -22,20 +22,28 @@ const AppBar = () => {
     fetchPolicy: 'cache-and-network',
   })
 
-  let tabToShow = <AppBarTab tabName={'Sing in '} address={'/signin'} />
+  let loggedInStatusTab = <AppBarTab tabName={'Sing in '} address={'/signin'} />
   if (!loading) {
-    tabToShow = !data.me ? (
-      <AppBarTab tabName={'Sing in '} address={'/signin'} />
-    ) : (
+    loggedInStatusTab = !data.me ? loggedInStatusTab : (
       <AppBarTab tabName={'Sing Out '} address={'/signout'} />
     )
+
+  }
+
+  let reviewTab = null
+  if (!loading) {
+    reviewTab = !data.me ? reviewTab : (
+      <AppBarTab tabName={'Review '} address={'/review'} />
+    )
+
   }
 
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
         {<AppBarTab tabName={'Repositories '} address={'/'} />}
-        {tabToShow}
+        {loggedInStatusTab}
+        {reviewTab}
       </ScrollView>
     </View>
   )
