@@ -24,18 +24,20 @@ const AppBar = () => {
 
   let loggedInStatusTab = <AppBarTab tabName={'Sing in '} address={'/signin'} />
   if (!loading) {
-    loggedInStatusTab = !data.me ? loggedInStatusTab : (
+    loggedInStatusTab = !data.me ? (
+      loggedInStatusTab
+    ) : (
       <AppBarTab tabName={'Sing Out '} address={'/signout'} />
     )
-
   }
 
   let reviewTab = null
   if (!loading) {
-    reviewTab = !data.me ? reviewTab : (
+    reviewTab = !data.me ? (
+      reviewTab
+    ) : (
       <AppBarTab tabName={'Review '} address={'/review'} />
     )
-
   }
 
   return (
