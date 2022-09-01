@@ -4,7 +4,7 @@ import FormikTextInput from '../Formik/FormikTextInput'
 import { Formik } from 'formik'
 import * as yup from 'yup'
 import { useNavigate } from 'react-router-native'
-import useReview from '../../hooks/useReview'
+import useSignUp from '../../hooks/useSingUp'
 
 const styles = StyleSheet.create({
   container: {
@@ -28,62 +28,55 @@ const styles = StyleSheet.create({
   },
 })
 const initialValues = {
-    ownerName: '',
-    repositoryName: '',
-  rating: '',
-  text: '',
+  username: '',
+  password: '',
+  passwordConfirmation: '', 
 }
 const validationSchema = yup.object().shape({
-    ownerName: yup
+  username: yup
     .string()
-    .required('Repository owner name is required'),
-    repositoryName: yup
+    .min(1, 'Username shoud be atleast 1 characters long')
+    .max(50, 'Username should be only 30 characters long')
+    .required('Username is required'),
+  password: yup
     .string()
-    .required('Repository name is required'),
-    rating: yup
-    .number()
-    .typeError('Rating must be a number')
+    .min(5, 'Password should contain at least 5 characters')
+    .max(50, 'Password should only contain 50 characters maximum')
+    .required('Password is required'),
+    passwordConfirmation: yup
+    .string()
+    .min(5, 'Password should contain at least 5 characters')
+    .max(50, 'Password should only contain 50 characters maximum')
+    .required('Password is required'),
 
-    .min(1,'Please enter a number between 1 and 100')
-    .max(100,'Please enter a number between 1 and a 100')
-    .required('Rating is required'),
-    text: yup
-    .string()
-    .optional(),
 })
-
-const ReviewForm = ({ onSubmit }) => {
+const SignUpForm = ({ onSubmit }) => {
   return (
     <View style={styles.container}>
       <View style={styles.form}>
         <FormikTextInput
           style={styles.textInput}
-          name="ownerName"
-          placeholder="Repository owner name"
+          name="username"
+          placeholder="Username"
           placeholderTextColor="grey"
         />
         <FormikTextInput
           style={styles.textInput}
-          name="repositoryName"
-          placeholder="Repository name"
+          secureTextEntry
+          name="password"
+          placeholder="Password"
           placeholderTextColor="grey"
         />
         <FormikTextInput
           style={styles.textInput}
-          name="rating"
-          placeholder="Rating between 0 to 100"
+          secureTextEntry
+          name="passwordConfirmation"
+          placeholder="Password confirmation"
           placeholderTextColor="grey"
-        />
-        <FormikTextInput
-          style={styles.textInput}
-          name="text"
-          placeholder="Review"
-          placeholderTextColor="grey"
-          multiline={true}
         />
         <Pressable style={styles.button} onPress={onSubmit}>
           <Text color="appBarText" fontWeight="bold">
-            Create a review
+            Sign up
           </Text>
         </Pressable>
       </View>
@@ -91,26 +84,25 @@ const ReviewForm = ({ onSubmit }) => {
   )
 }
 
-export const ReviewContainer = ({ onSubmit }) => {
+export const SingUpContainer = ({ onSubmit }) => {
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={onSubmit}
       validationSchema={validationSchema}
     >
-      {({ handleSubmit }) => <ReviewForm onSubmit={handleSubmit} />}
+      {({ handleSubmit }) => <SignUpForm onSubmit={handleSubmit} />}
     </Formik>
   )
 }
-const Review = () => {
-  const [makeReview] = useReview()
+const SignUp = () => {
+  const [signUp] = useSignUp()
   const navigate = useNavigate()
 
   const onSubmit = async (values) => {
-    const { ownerName, repositoryName, rating, text } = values
-    const intRating = parseInt(rating)
+    const { username, password, passwordConfirmation } = values
     try {
-      const { data } = await makeReview({ ownerName, repositoryName, rating: intRating, text })
+      const { data } = await signUp({ username, password })
       if (data) {
         navigate('/')
       }
@@ -118,7 +110,7 @@ const Review = () => {
       console.log(e)
     }
   }
-  return <ReviewContainer onSubmit={onSubmit} />
+  return <SingUpContainer onSubmit={onSubmit} />
 }
 
-export default Review
+export default SignUp

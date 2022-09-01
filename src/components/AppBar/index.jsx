@@ -31,10 +31,11 @@ const AppBar = () => {
     )
   }
 
-  let reviewTab = null
+  let reviewOrSignupTab = <AppBarTab tabName={'Sing Up '} address={'/signup'} />
+
   if (!loading) {
-    reviewTab = !data.me ? (
-      reviewTab
+    reviewOrSignupTab = !data.me ? (
+      reviewOrSignupTab
     ) : (
       <AppBarTab tabName={'Review '} address={'/review'} />
     )
@@ -45,7 +46,7 @@ const AppBar = () => {
       <ScrollView horizontal>
         {<AppBarTab tabName={'Repositories '} address={'/'} />}
         {loggedInStatusTab}
-        {reviewTab}
+        {reviewOrSignupTab}
       </ScrollView>
     </View>
   )

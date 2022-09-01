@@ -10,6 +10,15 @@ mutation Mutation($credentials: AuthenticateInput) {
 
 `
 
+export const SING_UP = gql`
+
+mutation Mutation($user: CreateUserInput) {
+  createUser(user: $user) {
+    username
+  }
+}
+`
+
 
 export const REVIEW = gql`
 mutation Mutation($review: CreateReviewInput) {
