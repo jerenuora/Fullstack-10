@@ -5,6 +5,7 @@ import { Formik } from 'formik'
 import * as yup from 'yup'
 import { useNavigate } from 'react-router-native'
 import useSignUp from '../../hooks/useSingUp'
+import useSignIn from '../../hooks/useSingIn'
 
 const styles = StyleSheet.create({
   container: {
@@ -30,7 +31,7 @@ const styles = StyleSheet.create({
 const initialValues = {
   username: '',
   password: '',
-  passwordConfirmation: '', 
+  passwordConfirmation: '',
 }
 const validationSchema = yup.object().shape({
   username: yup
@@ -43,12 +44,10 @@ const validationSchema = yup.object().shape({
     .min(5, 'Password should contain at least 5 characters')
     .max(50, 'Password should only contain 50 characters maximum')
     .required('Password is required'),
-    passwordConfirmation: yup
+  passwordConfirmation: yup
     .string()
-    .min(5, 'Password should contain at least 5 characters')
-    .max(50, 'Password should only contain 50 characters maximum')
-    .required('Password is required'),
-
+    .oneOf([yup.ref('password'), null], 'Passwords must match')
+    .required('Password confirmation is required'),
 })
 const SignUpForm = ({ onSubmit }) => {
   return (
@@ -97,13 +96,16 @@ export const SingUpContainer = ({ onSubmit }) => {
 }
 const SignUp = () => {
   const [signUp] = useSignUp()
+  const [signIn] = useSignIn()
   const navigate = useNavigate()
 
   const onSubmit = async (values) => {
     const { username, password, passwordConfirmation } = values
     try {
       const { data } = await signUp({ username, password })
+
       if (data) {
+        await signIn({ username, password })
         navigate('/')
       }
     } catch (e) {
