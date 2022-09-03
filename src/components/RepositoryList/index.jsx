@@ -4,7 +4,7 @@ import useRepositories from '../../hooks/useRepositories.js'
 import { useNavigate } from 'react-router-native'
 import { useState } from 'react'
 // import {Picker} from '@react-native-picker/picker';
-import { Button, Menu, Provider } from 'react-native-paper'
+import { Button, Menu, Provider, Searchbar } from 'react-native-paper'
 import theme from '../../theme'
 const styles = StyleSheet.create({
   separator: {
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />
 
-export const RepositoryListContainer = ({ picker, repositories }) => {
+export const RepositoryListContainer = ({ headerComponent, repositories }) => {
   const navigate = useNavigate()
 
   const repositoryNodes = repositories
@@ -31,7 +31,7 @@ export const RepositoryListContainer = ({ picker, repositories }) => {
   }
   return (
     <FlatList
-      ListHeaderComponent={picker}
+      ListHeaderComponent={headerComponent}
       data={repositoryNodes}
       ItemSeparatorComponent={ItemSeparator}
       renderItem={PressableArea}
@@ -40,15 +40,30 @@ export const RepositoryListContainer = ({ picker, repositories }) => {
     />
   )
 }
-const Picker = (setOrder) => {
+const HeaderComponent = ({ order, setOrder }) => {
   const [visible, setVisible] = useState(false)
   const openMenu = () => setVisible(true)
 
   const closeMenu = () => setVisible(false)
-  const onPressHandler = (order) => {
+  const onPressHandlerOrder = (orderUpdate) => {
     closeMenu()
-    setOrder(order)
+    const newOrder = {
+      ...order, 
+      orderBy: orderUpdate.orderBy,
+      orderDirection: orderUpdate.orderDirection,
+
+    }
+    setOrder(newOrder)
   }
+  const onPressHandler = (searchKeywordUpdate) => {
+    const newOrder = {
+      ...order, 
+      searchKeyword: searchKeywordUpdate
+
+    }
+    setOrder(newOrder)
+  }
+
   return (
     <Provider>
       <View
@@ -57,10 +72,24 @@ const Picker = (setOrder) => {
           flexDirection: 'row',
           justifyContent: 'center',
           backgroundColor: theme.colors.backgroundColor,
-          flex: 1 
+          flex: 1,
         }}
       >
+        <Searchbar
+          style={{
+            width: '100%',
+            justifyContent: 'center',
+          }}
+          placeholder="Search"
+          onChangeText={onPressHandler}
+          value={order.searchKeyword}
+        />
+
         <Menu
+                  style={{
+                    alignSelf: 'center',
+                  }}
+        
           visible={visible}
           onDismiss={closeMenu}
           anchor={
@@ -69,13 +98,13 @@ const Picker = (setOrder) => {
               icon="sort"
               onPress={openMenu}
             >
-              Sort repositories
+              Sort items
             </Button>
           }
         >
           <Menu.Item
             onPress={() => {
-              onPressHandler({
+              onPressHandlerOrder({
                 orderBy: 'CREATED_AT',
                 orderDirection: 'DESC',
               })
@@ -84,7 +113,7 @@ const Picker = (setOrder) => {
           />
           <Menu.Item
             onPress={() => {
-              onPressHandler({
+              onPressHandlerOrder({
                 orderBy: 'RATING_AVERAGE',
                 orderDirection: 'DESC',
               })
@@ -93,7 +122,7 @@ const Picker = (setOrder) => {
           />
           <Menu.Item
             onPress={() => {
-              onPressHandler({
+              onPressHandlerOrder({
                 orderBy: 'RATING_AVERAGE',
                 orderDirection: 'ASC',
               })
@@ -110,12 +139,18 @@ const RepositoryList = () => {
   const [order, setOrder] = useState({
     orderBy: 'CREATED_AT',
     orderDirection: 'DESC',
+    searchKeyword: '',
   })
+
+
   const { repositories } = useRepositories(order)
 
   return (
     <RepositoryListContainer
-      picker={Picker(setOrder)}
+      headerComponent={HeaderComponent({
+        order,
+        setOrder,
+      })}
       repositories={repositories}
     />
   )
