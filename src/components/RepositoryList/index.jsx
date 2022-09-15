@@ -13,7 +13,11 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />
 
-export const RepositoryListContainer = ({ headerComponent, repositories }) => {
+export const RepositoryListContainer = ({
+  headerComponent,
+  repositories,
+  onEndReach,
+}) => {
   const navigate = useNavigate()
 
   const repositoryNodes = repositories
@@ -36,6 +40,8 @@ export const RepositoryListContainer = ({ headerComponent, repositories }) => {
       renderItem={PressableArea}
       keyExtractor={(item) => item.id}
       stickyHeaderIndices={[0]}
+      onEndReached={onEndReach}
+      onEndReachedThreshold={0.5}
     />
   )
 }
@@ -48,10 +54,15 @@ const RepositoryList = () => {
   })
   const [debouncedSearchKeyword] = useDebounce(order.searchKeyword, 500)
 
-  const { repositories } = useRepositories({
+  const { repositories, fetchMore } = useRepositories({
+    first: 8, 
     ...order,
     searchKeyword: debouncedSearchKeyword,
   })
+  const onEndReach = () => {
+    console.log('load more')
+    fetchMore()
+  };
 
   return (
     <RepositoryListContainer
@@ -60,6 +71,8 @@ const RepositoryList = () => {
         setOrder,
       })}
       repositories={repositories}
+      onEndReach={onEndReach}
+
     />
   )
 }
