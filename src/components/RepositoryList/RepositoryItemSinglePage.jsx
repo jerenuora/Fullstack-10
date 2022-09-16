@@ -5,6 +5,7 @@ import RepositoryItem from './RepositoryItem'
 import { FlatList, View, StyleSheet } from 'react-native'
 import Text from '../Text'
 import { format, compareAsc } from 'date-fns'
+import useSingleUserInfo from '../../hooks/useSingleUserInfo'
 
 const ItemSeparator = () => <View style={styles.separator} />
 
@@ -78,7 +79,7 @@ const ReviewItem = ({ review }) => {
   )
 }
 
-const SingleRepositoryContainer = ({ repository }) => {
+const SingleRepositoryContainer = ({ repository, onEndReach }) => {
   const reviews = repository
     ? repository.reviews.edges.map((edge) => edge.node)
     : []
@@ -89,6 +90,8 @@ const SingleRepositoryContainer = ({ repository }) => {
       ItemSeparatorComponent={ItemSeparator}
       renderItem={({ item }) => <ReviewItem review={item} />}
       keyExtractor={({ id }) => id}
+      onEndReached={onEndReach}
+      onEndReachedThreshold={0.5}
       ListHeaderComponent={() => (
         <RepositoryItemSinglePage repository={repository} />
       )}
@@ -98,15 +101,24 @@ const SingleRepositoryContainer = ({ repository }) => {
 
 const SingleRepository = () => {
   const { id } = useParams()
-  const { data, loading } = useQuery(GET_SINGLE_USER, {
-    fetchPolicy: 'cache-and-network',
-    variables: { id },
+  const { repository, loading, fetchMore } = useSingleUserInfo({
+    id: id,
+    first: 8,
   })
+
+  const onEndReach = () => {
+    fetchMore()
+  }
+
   if (loading) {
     return null
   } else {
-    const repository = data.repository
-    return <SingleRepositoryContainer repository={repository} />
+    return (
+      <SingleRepositoryContainer
+        repository={repository}
+        onEndReach={onEndReach}
+      />
+    )
   }
 }
 export default SingleRepository
