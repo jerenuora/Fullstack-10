@@ -36,7 +36,7 @@ export const GET_USER = gql`
   }
 `
 
-export const GET_SINGLE_USER = gql`
+export const GET_SINGLE_REPOSITORY = gql`
   query Query($id: ID!, $first: Int, $after: String) {
     repository(id: $id) {
       id

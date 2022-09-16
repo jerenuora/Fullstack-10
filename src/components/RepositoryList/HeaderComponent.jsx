@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { FlatList, View, StyleSheet, Pressable } from 'react-native'
+import { View, StyleSheet, Pressable } from 'react-native'
 
 import { Button, Menu, Provider, Searchbar } from 'react-native-paper'
 import theme from '../../theme'

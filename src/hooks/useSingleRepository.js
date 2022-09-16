@@ -1,10 +1,10 @@
 import { useQuery } from '@apollo/client'
 import { useState, useEffect } from 'react'
-import { GET_SINGLE_USER } from '../graphql/queries'
+import { GET_SINGLE_REPOSITORY } from '../graphql/queries'
 
 const useSingleUserInfo = ({ id, first, after }) => {
   const [repository, setRepository] = useState()
-  const { data, loading, fetchMore, ...result } = useQuery(GET_SINGLE_USER, {
+  const { data, loading, fetchMore, ...result } = useQuery(GET_SINGLE_REPOSITORY, {
     fetchPolicy: 'cache-and-network',
     variables: { id, first, after },
   })
