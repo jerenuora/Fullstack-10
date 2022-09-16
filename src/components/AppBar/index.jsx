@@ -5,9 +5,6 @@ import Constants from 'expo-constants'
 import theme from '../../theme'
 import AppBarTab from './AppBarTab'
 import { GET_USER } from '../../graphql/queries'
-import { useEffect } from 'react'
-
-import useAuthStorage from '../../hooks/useAuthStorage'
 
 const styles = StyleSheet.create({
   container: {
@@ -23,6 +20,7 @@ const AppBar = () => {
   })
 
   let signInOrOutTab = <AppBarTab tabName={'Sing in '} address={'/signin'} />
+  
   if (!loading) {
     signInOrOutTab = !data.me ? (
       signInOrOutTab
@@ -41,12 +39,21 @@ const AppBar = () => {
     )
   }
 
+  let viewReviewsTab = (
+    <AppBarTab tabName={'My reviews '} address={'/reviewuser'} />
+  )
+
+  if (!loading) {
+    viewReviewsTab = !data.me ? null : viewReviewsTab
+  }
+
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
         {<AppBarTab tabName={'Repositories '} address={'/'} />}
         {signInOrOutTab}
         {reviewOrSignUpTab}
+        {viewReviewsTab}
       </ScrollView>
     </View>
   )

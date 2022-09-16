@@ -10,7 +10,7 @@ const useUser = () => {
 
   const fetchUser = async () => {
     if (!loading) {
-      setUser(data.me)
+      setUser(data)
     }
   }
 

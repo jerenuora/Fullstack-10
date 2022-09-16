@@ -22,7 +22,8 @@ const ReviewListHeader = ({ repository }) => {
 }
 
 
-const ReviewListContainer = ({ repository, onEndReach }) => {
+export const ReviewListContainer = ({ repository, onEndReach, header }) => {
+  console.log('repository', repository)
   const reviews = repository
     ? repository.reviews.edges.map((edge) => edge.node)
     : []
@@ -36,7 +37,9 @@ const ReviewListContainer = ({ repository, onEndReach }) => {
       onEndReached={onEndReach}
       onEndReachedThreshold={0.5}
       ListHeaderComponent={() => (
-        <ReviewListHeader repository={repository} />
+        header 
+        ?<ReviewListHeader repository={repository} />
+        :null
       )}
     />
   )
@@ -56,10 +59,12 @@ const ReviewList = () => {
   if (loading) {
     return null
   } else {
+    console.log('nakyyks taaki',repository)
     return (
       <ReviewListContainer
         repository={repository}
         onEndReach={onEndReach}
+        header={true}
       />
     )
   }
