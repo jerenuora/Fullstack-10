@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-native'
 import { FlatList, View, StyleSheet } from 'react-native'
 import useSingleUserInfo from '../../hooks/useSingleRepository'
-import ReviewItem from './Reviewitem'
+import ReviewItem from './ReviewItem'
 import RepositoryItem from '../RepositoryList/RepositoryItem'
 
 const styles = StyleSheet.create({
@@ -22,7 +22,7 @@ const ReviewListHeader = ({ repository }) => {
 }
 
 
-export const ReviewListContainer = ({ repository, onEndReach, header }) => {
+export const ReviewListContainer = ({ repository, onEndReach, header, buttons }) => {
   console.log('repository', repository)
   const reviews = repository
     ? repository.reviews.edges.map((edge) => edge.node)
@@ -32,7 +32,7 @@ export const ReviewListContainer = ({ repository, onEndReach, header }) => {
     <FlatList
       data={reviews}
       ItemSeparatorComponent={ItemSeparator}
-      renderItem={({ item }) => <ReviewItem review={item} />}
+      renderItem={({ item }) => <ReviewItem review={item} buttons={buttons} />}
       keyExtractor={({ id }) => id}
       onEndReached={onEndReach}
       onEndReachedThreshold={0.5}

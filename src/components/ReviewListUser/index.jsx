@@ -3,6 +3,7 @@ import { View, StyleSheet, ScrollView } from 'react-native'
 import { useQuery } from '@apollo/client'
 import { GET_USER } from '../../graphql/queries'
 import { ReviewListContainer } from '../ReviewList'
+
 const ReviewListUser = () => {
   const { data, loading } = useQuery(GET_USER, {
     fetchPolicy: 'cache-and-network',
@@ -15,7 +16,7 @@ const ReviewListUser = () => {
 
   return (
     <View>
-      <ReviewListContainer repository={data.me}  />
+      <ReviewListContainer repository={data.me} buttons={true}  />
     </View>
   )
 }
