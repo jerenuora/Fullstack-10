@@ -1,14 +1,12 @@
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, Pressable } from 'react-native'
 import Text from '../Text'
-import { format, compareAsc } from 'date-fns'
-import { Button } from 'react-native-paper'
+import { format } from 'date-fns'
 
 const styles = StyleSheet.create({
   separator: {
     height: 10,
   },
   container: {
-    paddingRight: 10,
     flexDirection: 'column',
     backgroundColor: 'white',
   },
@@ -33,11 +31,32 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     padding: 5,
     flexShrink: 1,
-    marginBottom: 5,
     alignSelf: 'center',
   },
   buttonContainer: {
     flexDirection: 'row',
+
+    padding: 5,
+    alignSelf: 'center',
+    justifyContent: 'space-between'
+  },
+  buttonView: {
+    flexGrow: 1,
+    backgroundColor: 'blue',
+    borderRadius: 5,
+    padding: 15,
+    alignItems: 'center',
+    margin: 5
+  },
+  buttonDelete: {
+    margin: 5,
+
+    flexGrow: 1,
+    backgroundColor: 'blue',
+    borderRadius: 5,
+    padding: 15,
+    alignItems: 'center',
+    backgroundColor: 'red',
   },
 })
 
@@ -47,8 +66,16 @@ const ReviewItem = ({ review, buttons }) => {
   const Buttons = () => {
     return (
       <View style={styles.buttonContainer}>
-        <Button> View repository</Button>
-        <Button> Delete review</Button>
+        <Pressable style={styles.buttonView} onPress={() => {}}>
+          <Text fontSize="subheading" color="appBarText">
+            View repository
+          </Text>
+        </Pressable>
+        <Pressable style={styles.buttonDelete} onPress={() => {}}>
+          <Text fontSize="subheading" color="appBarText">
+            Delete review
+          </Text>
+        </Pressable>
       </View>
     )
   }

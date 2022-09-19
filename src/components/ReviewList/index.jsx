@@ -59,7 +59,6 @@ const ReviewList = () => {
   if (loading) {
     return null
   } else {
-    console.log('nakyyks taaki',repository)
     return (
       <ReviewListContainer
         repository={repository}
