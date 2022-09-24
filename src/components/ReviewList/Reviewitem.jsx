@@ -1,4 +1,4 @@
-import { View, StyleSheet, Pressable } from 'react-native'
+import { View, StyleSheet, Pressable, Alert } from 'react-native'
 import Text from '../Text'
 import { format } from 'date-fns'
 import { useNavigate } from 'react-router-native'
@@ -71,6 +71,23 @@ const ReviewItem = ({ review, buttons, refetch }) => {
   const repoNamePretty = repoName.join('/')
   const repoNameId = repoName.join('.')
 
+  const deleteAlert = () =>
+    Alert.alert(
+      "Delete review",
+      "Are you sure you want to delete review?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "Delete", onPress:  () => {
+            doDelete(review.id)
+             refetch()
+          } }
+      ]
+    );
+
   const Buttons = () => {
     return (
       <View style={styles.buttonContainer}>
@@ -86,10 +103,7 @@ const ReviewItem = ({ review, buttons, refetch }) => {
         </Pressable>
         <Pressable
           style={styles.buttonDelete}
-          onPress={async () => {
-            doDelete(review.id)
-            await refetch()
-          }}
+          onPress={deleteAlert}
         >
           <Text fontSize="subheading" color="appBarText">
             Delete review
@@ -98,7 +112,7 @@ const ReviewItem = ({ review, buttons, refetch }) => {
       </View>
     )
   }
-  console.log(review)
+  
   return (
     <View style={styles.container}>
       <View style={styles.ratingAndTextContainer}>
