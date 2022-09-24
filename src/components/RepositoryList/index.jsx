@@ -26,6 +26,7 @@ export const RepositoryListContainer = ({
 
   const PressableArea = ({ item }) => {
     const id = item.id
+    console.log(id)
     return (
       <Pressable onPress={() => navigate(`/${id}`)}>
         <RepositoryItem item={item} single={false} />

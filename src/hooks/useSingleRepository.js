@@ -4,7 +4,7 @@ import { GET_SINGLE_REPOSITORY } from '../graphql/queries'
 
 const useSingleUserInfo = ({ id, first, after }) => {
   const [repository, setRepository] = useState()
-  const { data, loading, fetchMore, ...result } = useQuery(GET_SINGLE_REPOSITORY, {
+  const { data, loading, refetch, fetchMore, ...result } = useQuery(GET_SINGLE_REPOSITORY, {
     fetchPolicy: 'cache-and-network',
     variables: { id, first, after },
   })
@@ -28,7 +28,8 @@ const useSingleUserInfo = ({ id, first, after }) => {
   return {
     repository: data?.repository,
     fetchMore: handleFetchMore,
-    loading,
+    loading, 
+    refetch,
     ...result,
   }
 }

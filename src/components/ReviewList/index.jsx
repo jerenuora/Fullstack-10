@@ -22,8 +22,8 @@ const ReviewListHeader = ({ repository }) => {
 }
 
 
-export const ReviewListContainer = ({ repository, onEndReach, header, buttons }) => {
-  console.log('repository', repository)
+export const ReviewListContainer = ({ repository, onEndReach, header, buttons, refetch }) => {
+  console.log('repository', refetch)
   const reviews = repository
     ? repository.reviews.edges.map((edge) => edge.node)
     : []
@@ -32,7 +32,7 @@ export const ReviewListContainer = ({ repository, onEndReach, header, buttons })
     <FlatList
       data={reviews}
       ItemSeparatorComponent={ItemSeparator}
-      renderItem={({ item }) => <ReviewItem review={item} buttons={buttons} />}
+      renderItem={({ item }) => <ReviewItem review={item} buttons={buttons} refetch={refetch} />}
       keyExtractor={({ id }) => id}
       onEndReached={onEndReach}
       onEndReachedThreshold={0.5}

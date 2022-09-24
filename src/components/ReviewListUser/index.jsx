@@ -5,7 +5,7 @@ import { GET_USER } from '../../graphql/queries'
 import { ReviewListContainer } from '../ReviewList'
 
 const ReviewListUser = () => {
-  const { data, loading } = useQuery(GET_USER, {
+  const { data, loading, refetch } = useQuery(GET_USER, {
     fetchPolicy: 'cache-and-network',
     variables:{includeReviews: true}
   })
@@ -16,7 +16,7 @@ const ReviewListUser = () => {
 
   return (
     <View>
-      <ReviewListContainer repository={data.me} buttons={true}  />
+      <ReviewListContainer repository={data.me} buttons={true} refetch={refetch}  />
     </View>
   )
 }

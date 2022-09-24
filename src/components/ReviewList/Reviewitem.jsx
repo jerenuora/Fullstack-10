@@ -1,7 +1,8 @@
 import { View, StyleSheet, Pressable } from 'react-native'
 import Text from '../Text'
 import { format } from 'date-fns'
-
+import { useNavigate } from 'react-router-native'
+import useDelete from '../../hooks/useDelete'
 const styles = StyleSheet.create({
   separator: {
     height: 10,
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
 
     padding: 5,
     alignSelf: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   buttonView: {
     flexGrow: 1,
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 15,
     alignItems: 'center',
-    margin: 5
+    margin: 5,
   },
   buttonDelete: {
     margin: 5,
@@ -60,18 +61,36 @@ const styles = StyleSheet.create({
   },
 })
 
-const ReviewItem = ({ review, buttons }) => {
+const ReviewItem = ({ review, buttons, refetch }) => {
   const time = format(new Date(review.createdAt), 'dd.MM.yyyy')
+  const navigate = useNavigate()
+  const [doDelete] = useDelete()
+
+  const splitId = review.id.split('.')
+  const repoName = splitId.slice(1)
+  const repoNamePretty = repoName.join('/')
+  const repoNameId = repoName.join('.')
 
   const Buttons = () => {
     return (
       <View style={styles.buttonContainer}>
-        <Pressable style={styles.buttonView} onPress={() => {}}>
+        <Pressable
+          style={styles.buttonView}
+          onPress={() => {
+            navigate(`/${repoNameId}`)
+          }}
+        >
           <Text fontSize="subheading" color="appBarText">
             View repository
           </Text>
         </Pressable>
-        <Pressable style={styles.buttonDelete} onPress={() => {}}>
+        <Pressable
+          style={styles.buttonDelete}
+          onPress={async () => {
+            doDelete(review.id)
+            await refetch()
+          }}
+        >
           <Text fontSize="subheading" color="appBarText">
             Delete review
           </Text>
@@ -79,6 +98,7 @@ const ReviewItem = ({ review, buttons }) => {
       </View>
     )
   }
+  console.log(review)
   return (
     <View style={styles.container}>
       <View style={styles.ratingAndTextContainer}>
@@ -96,7 +116,7 @@ const ReviewItem = ({ review, buttons }) => {
             fontWeight="bold"
             style={{ marginBottom: 5 }}
           >
-            {review.user.username}
+            {buttons ? repoNamePretty : review.user.username}
           </Text>
           <Text color="textSecondary" style={{ marginBottom: 5 }}>
             {time}
